@@ -23,7 +23,7 @@ function New-DatedDownloadLink {
     $expiryDate = (Get-Date).AddHours($env:DownloadLinkLifespanInHours);
     $blobUri = New-AzStorageBlobSASToken -Container $script:containerName -Blob $BlobName -Context $StorageContext -Permission r -ExpiryTime $expiryDate -FullUri;
     Write-Log -Line "Finished creating SAS token.";
-    return "The backup can be downloaded from $blobUri until $expiryDate.";
+    return " The backup can be <a href=$blobUri>downloaded</a> until $expiryDate.";
 }
 
 function New-EmailBody {
