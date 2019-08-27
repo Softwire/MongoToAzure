@@ -57,20 +57,9 @@ function Send-SuccessEmail {
 
 function Send-FailureEmail {
     param( $ErrorMessage );
-
     $subject = "FAILED MongoDB Backup ($env:Database)";
-
     $content = "The MongoDB database ($env:Database) was --NOT-- backed up to Azure Blob Storage.";
-
-    # If this content is sent to the API, then API returns "Bad Request"
-    #$introSection = "The MongoDB database ($env:Database) was --NOT-- backed up to Azure Blob Storage. Details are provided below.";
-    #$logSection = "Log:$lineBreak$script:log";
-    #$errorSection = "Error:$lineBreak$ErrorMessage";
-    #$divider = "$lineBreak-----$lineBreak";
-    #$content = "$introSection$divider$logSection";#$divider$errorSection";
-
-    # The SendGrid API uses <br /> tags for line breaks
-    $htmlContent = $content.replace("`r`n", "<br />").replace("`n`r", "<br />").replace("`r", "<br />").replace("`n", "<br />");
+    $htmlContent = $content.replace("$lineBreak", "<br />"); # The SendGrid API uses <br /> tags for line breaks
     Send-Email -Subject $subject -Content $htmlContent;
 }
 
